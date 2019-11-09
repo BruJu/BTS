@@ -13,6 +13,7 @@ private:
 
 	Node<T> * left{ nullptr };
 	Node<T> * right{ nullptr };
+	void stealMax();
 
 public:
 	T getElement() const {
@@ -201,7 +202,7 @@ public:
 
 	void print() {
 		if (root == nullptr) {
-			printf("<Vide>");
+			printf("<Empty>\n");
 		} else {
 			root->print();
 			printf("\n");
@@ -263,23 +264,34 @@ Node<T> * Node<T>::remove(const T & element) {
 			this->left = nullptr;
 			return returnValue;
 		} else {
-
-			this->element = stealMax();
-			// TODO
-
-			std::swap(this->element, this->left->element);
-
-			Node<T> * newSon = this->left->remove(element);
-			if (newSon) {
-				delete this->left;
-				this->left = newSon;
-			}
-
+			stealMax();
 			return nullptr;
 		}
 	}
 }
 
+
+template <typename T>
+void Node<T>::stealMax() {
+	Node<T> * father = this;
+	Node<T> * deletedSon = this->left;
+
+	while (deletedSon->right) {
+		father = deletedSon;
+		deletedSon = father->right;
+	}
+
+	this->element = deletedSon->element;
+
+	if (father != this) {
+		father->right = deletedSon->left;
+	} else {
+		this->left = deletedSon->left;
+	}
+
+	deletedSon->left = nullptr;
+	delete deletedSon;
+}
 
 template <typename T>
 bool Node<T>::contains(const T & element) const {
