@@ -4,15 +4,18 @@
 #include <stack>
 
 template <typename T>
-class NodeIterator;
-
-template <typename T>
 class Node {
 private:
 	T element;
 
 	Node<T> * left{ nullptr };
 	Node<T> * right{ nullptr };
+
+	/**
+	  * Deletes the node in the left part of the tree that has the greatest
+	  * value and assigns its value to this node (effectivly removing this
+	  * node value)
+	  */
 	void stealMax();
 
 public:
@@ -34,11 +37,8 @@ public:
 	}
 
 	Node(Node<T> && other) : element(other.element) {
-		if (other.left) left = other.left;
-		else left = nullptr;
-
-		if (other.right) right = other.right;
-		else right = nullptr;
+		left = other.left;
+		right = other.right;
 
 		other.left = nullptr;
 		other.right = nullptr;
@@ -59,11 +59,9 @@ public:
 	Node<T> & operator=(Node<T> && other) {
 		delete left;
 		delete right;
-		if (other.left) left = other.left;
-		else left = nullptr;
 
-		if (other.right) right = other.right;
-		else right = nullptr;
+		left = other.left;
+		right = other.right;
 
 		other.left = nullptr;
 		other.right = nullptr;
@@ -99,8 +97,6 @@ public:
 		printf(">");
 	}
 };
-
-
 
 template <typename T>
 class BST {
@@ -196,7 +192,7 @@ public:
 		return iterator(this);
 	}
 
-	iterator end() {
+	const iterator end() const {
 		return iterator(nullptr);
 	}
 
