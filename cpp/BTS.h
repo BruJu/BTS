@@ -35,6 +35,8 @@ public:
 		if (other.right) right = new Node<T>(other.right);
 		else right = nullptr;
 	}
+    
+    Node(const Node<T> * other) : Node(*other) {}
 
 	Node(Node<T> && other) : element(other.element) {
 		left = other.left;
