@@ -45,6 +45,8 @@ public:
 	}
 
 	Node<T> & operator=(const Node<T> & other) {
+        if (this == &other) return *this;
+        
 		delete left;
 		delete right;
 		if (other.left) left = new Node<T>(other.left);
@@ -117,6 +119,7 @@ public:
 			delete root;
 	}
 	BST & operator=(const BST & other) {
+        if (&other == this) return *this; 
 		delete root;
 		this->root = new Node<T>(other.root);
 
