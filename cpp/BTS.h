@@ -19,7 +19,7 @@ private:
 	void stealMax();
 
 public:
-	T getElement() const {
+	const T & getElement() const {
 		return element;
 	}
 
@@ -38,7 +38,7 @@ public:
     
     Node(const Node<T> * other) : Node(*other) {}
 
-	Node(Node<T> && other) : element(other.element) {
+	Node(Node<T> && other) : element(std::move(other.element)) {
 		left = other.left;
 		right = other.right;
 
@@ -61,6 +61,8 @@ public:
 	}
 
 	Node<T> & operator=(Node<T> && other) {
+        if (this == &other) return *this;
+		
 		delete left;
 		delete right;
 
@@ -69,6 +71,8 @@ public:
 
 		other.left = nullptr;
 		other.right = nullptr;
+		
+		element = std::move(other.element);
 
 		return *this;
 	}
@@ -184,7 +188,7 @@ public:
 			return *this;
 		}
 
-		T operator*() const {
+		const T & operator*() const {
 			return exploredNodes.top()->getElement();
 		}
 

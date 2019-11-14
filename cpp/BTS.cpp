@@ -53,8 +53,8 @@ int main()
 
 	std::cout << " iterator ";
 
-	for (BST<int>::iterator it = t.begin(); it != t.end(); ++it) {
-		std::cout << *it << " ";
+	for (int i : t) {
+		std::cout << i << " ";
 	}
 
     std::cout << "\n";
