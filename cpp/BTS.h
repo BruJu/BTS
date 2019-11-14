@@ -56,6 +56,8 @@ public:
 
 		if (other.right) right = new Node<T>(other.right);
 		else right = nullptr;
+		
+		this.element = other.element;
 
 		return *this;
 	}
